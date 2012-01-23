@@ -1,0 +1,27 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:l="/lib/layout" xmlns:f="/lib/form">
+    <l:layout permission="${app.ADMINISTER}" norefresh="true">
+
+        <st:include page="sidepanel.jelly"/>
+
+        <l:main-panel>
+
+            <f:form method="post" action="saveConfig">
+
+                <f:entry>
+                    <f:hetero-list
+                            name="types"
+                            descriptors="${it.listSharedObjectsDescriptors}"
+                            items="${it.types}"
+                            addCaption="${%Add a shared object}"
+                            deleteCaption="${%Delete a shared object}"/>
+                    <label class="attach-previous">Select different kinds of shared objects</label>
+                </f:entry>
+
+                <f:block>
+                    <f:submit value="${%Save}"/>
+                </f:block>
+
+            </f:form>
+        </l:main-panel>
+    </l:layout>
+</j:jelly>
