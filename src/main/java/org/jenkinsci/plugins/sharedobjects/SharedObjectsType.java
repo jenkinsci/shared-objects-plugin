@@ -10,13 +10,13 @@ import java.io.Serializable;
 /**
  * @author Gregory Boissinot
  */
-public abstract class SharedObjectType implements ExtensionPoint, Describable<SharedObjectType>, Serializable {
+public abstract class SharedObjectsType implements ExtensionPoint, Describable<SharedObjectsType>, Serializable {
 
     protected String name;
 
     @Override
-    public Descriptor<SharedObjectType> getDescriptor() {
-        return (SharedObjectTypeDescriptor) Hudson.getInstance().getDescriptor(getClass());
+    public Descriptor<SharedObjectsType> getDescriptor() {
+        return (SharedObjectsTypeDescriptor) Hudson.getInstance().getDescriptor(getClass());
     }
 
     @SuppressWarnings("unused")
