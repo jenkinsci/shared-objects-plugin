@@ -2,9 +2,9 @@ package org.jenkinsci.plugins.sharedobjects.service;
 
 import hudson.model.Hudson;
 import hudson.util.XStream2;
-import org.jenkinsci.plugins.sharedobjects.SharedObjectException;
-import org.jenkinsci.plugins.sharedobjects.SharedObjectType;
+import org.jenkinsci.plugins.sharedobjects.SharedObjectsException;
 import org.jenkinsci.plugins.sharedobjects.SharedObjectsManagement;
+import org.jenkinsci.plugins.sharedobjects.SharedObjectsType;
 
 import java.io.*;
 
@@ -13,7 +13,7 @@ import java.io.*;
  */
 public class SharedObjectsDataStore {
 
-    public void writeSharedObjectsFile(SharedObjectType[] types) throws SharedObjectException {
+    public void writeSharedObjectsFile(SharedObjectsType[] types) throws SharedObjectsException {
         XStream2 xStream2 = new XStream2();
         File sharedObjectsFile = new File(Hudson.getInstance().getRootDir(), "sharedObjects.xml");
         FileWriter fileWriter = null;
@@ -21,19 +21,19 @@ public class SharedObjectsDataStore {
             fileWriter = new FileWriter(sharedObjectsFile, false);
             xStream2.toXML(new SharedObjectsManagement(types), fileWriter);
         } catch (IOException e) {
-            throw new SharedObjectException(e);
+            throw new SharedObjectsException(e);
         } finally {
             if (fileWriter != null) {
                 try {
                     fileWriter.close();
                 } catch (IOException e) {
-                    throw new SharedObjectException(e);
+                    throw new SharedObjectsException(e);
                 }
             }
         }
     }
 
-    public SharedObjectType[] readSharedObjectsFile() throws SharedObjectException {
+    public SharedObjectsType[] readSharedObjectsFile() throws SharedObjectsException {
         XStream2 xStream2 = new XStream2();
         File sharedObjectsFile = new File(Hudson.getInstance().getRootDir(), "sharedObjects.xml");
         FileReader fileReader = null;
@@ -44,20 +44,20 @@ public class SharedObjectsDataStore {
                 return sharedObjectsManagement.getTypes();
             }
         } catch (FileNotFoundException e) {
-            throw new SharedObjectException(e);
+            throw new SharedObjectsException(e);
         } catch (IOException e) {
-            throw new SharedObjectException(e);
+            throw new SharedObjectsException(e);
         } finally {
             if (fileReader != null) {
                 try {
                     fileReader.close();
                 } catch (IOException e) {
-                    throw new SharedObjectException(e);
+                    throw new SharedObjectsException(e);
                 }
             }
 
         }
-        return new SharedObjectType[0];
+        return new SharedObjectsType[0];
     }
 
 }

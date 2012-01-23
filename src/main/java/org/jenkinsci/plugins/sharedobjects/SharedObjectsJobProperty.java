@@ -41,12 +41,12 @@ public class SharedObjectsJobProperty extends EnvInjectJobPropertyContributor {
         if (populateSharedObjects) {
             SharedObjectsDataStore dataStore = new SharedObjectsDataStore();
             try {
-                SharedObjectType[] sharedObjectTypes = dataStore.readSharedObjectsFile();
-                for (SharedObjectType type : sharedObjectTypes) {
+                SharedObjectsType[] sharedObjectsTypes = dataStore.readSharedObjectsFile();
+                for (SharedObjectsType type : sharedObjectsTypes) {
                     result.put(type.getName(), type.getEnvVarValue());
                 }
 
-            } catch (SharedObjectException se) {
+            } catch (SharedObjectsException se) {
                 throw new EnvInjectException(se);
             }
         }

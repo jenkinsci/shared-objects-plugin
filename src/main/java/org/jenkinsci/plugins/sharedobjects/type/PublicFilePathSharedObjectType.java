@@ -1,14 +1,14 @@
 package org.jenkinsci.plugins.sharedobjects.type;
 
 import hudson.Extension;
-import org.jenkinsci.plugins.sharedobjects.SharedObjectType;
-import org.jenkinsci.plugins.sharedobjects.SharedObjectTypeDescriptor;
+import org.jenkinsci.plugins.sharedobjects.SharedObjectsType;
+import org.jenkinsci.plugins.sharedobjects.SharedObjectsTypeDescriptor;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 /**
  * @author Gregory Boissinot
  */
-public class PublicFilePathSharedObjectType extends SharedObjectType {
+public class PublicFilePathSharedObjectType extends SharedObjectsType {
 
     private String publicFilePath;
 
@@ -29,7 +29,7 @@ public class PublicFilePathSharedObjectType extends SharedObjectType {
     }
 
     @Extension
-    public static class PublicFilePathSharedObjectTypeDescriptor extends SharedObjectTypeDescriptor {
+    public static class PublicFilePathSharedObjectTypeDescriptor extends SharedObjectsTypeDescriptor {
 
         @Override
         public String getDisplayName() {
@@ -37,7 +37,7 @@ public class PublicFilePathSharedObjectType extends SharedObjectType {
         }
 
         @Override
-        public Class<? extends SharedObjectType> getType() {
+        public Class<? extends SharedObjectsType> getType() {
             return PublicFilePathSharedObjectType.class;
         }
     }
