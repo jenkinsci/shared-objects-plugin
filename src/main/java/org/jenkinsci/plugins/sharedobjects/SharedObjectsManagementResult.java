@@ -2,6 +2,7 @@ package org.jenkinsci.plugins.sharedobjects;
 
 import hudson.DescriptorExtensionList;
 import hudson.model.Hudson;
+import hudson.util.XStream2;
 import net.sf.json.JSON;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
@@ -10,7 +11,7 @@ import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.StaplerResponse;
 
 import javax.servlet.ServletException;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 
 import static hudson.Functions.checkPermission;
@@ -20,20 +21,20 @@ import static hudson.Functions.checkPermission;
  */
 public class SharedObjectsManagementResult {
 
-    private SharedObjectsType[] types;
+    private SharedObjectType[] types;
 
-    public SharedObjectsManagementResult(SharedObjectsType[] types) {
+    public SharedObjectsManagementResult(SharedObjectType[] types) {
         this.types = types;
     }
 
     @SuppressWarnings("unused")
-    public SharedObjectsType[] getTypes() {
+    public SharedObjectType[] getTypes() {
         return types;
     }
 
     @SuppressWarnings("unchecked")
     public DescriptorExtensionList getListSharedObjectsDescriptors() {
-        return DescriptorExtensionList.createDescriptorList(Hudson.getInstance(), SharedObjectsType.class);
+        return DescriptorExtensionList.createDescriptorList(Hudson.getInstance(), SharedObjectType.class);
     }
 
     @SuppressWarnings("unused")
@@ -49,13 +50,13 @@ public class SharedObjectsManagementResult {
             typesJSON = submittedForm.getJSONObject("types");
         }
 
-        List<SharedObjectsType> types = req.bindJSONToList(SharedObjectsType.class, typesJSON);
-        SharedObjectsType[] typesArray = types.toArray(new SharedObjectsType[types.size()]);
+        List<SharedObjectType> types = req.bindJSONToList(SharedObjectType.class, typesJSON);
+        SharedObjectType[] typesArray = types.toArray(new SharedObjectType[types.size()]);
 
         SharedObjectsDataStore store = new SharedObjectsDataStore();
         try {
             store.writeSharedObjectsFile(typesArray);
-        } catch (SharedObjectsException e) {
+        } catch (SharedObjectException e) {
             e.printStackTrace();
         }
 

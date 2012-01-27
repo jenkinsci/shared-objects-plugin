@@ -1,12 +1,10 @@
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define"        xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
 
-    <f:entry title="${%Name}"
-             help="/descriptor/org.jenkinsci.plugins.sharedobjects.type.PublicFilePathSharedObjectType/help/name">
+    <f:entry title="${%Name}" >
          <f:textbox name="name" value="${instance.name}" />
     </f:entry>
 
-    <f:entry title="${%Public File Path}"
-             help="/descriptor/org.jenkinsci.plugins.sharedobjects.type.PublicFilePathSharedObjectType/help/type">
+    <f:entry title="${%Public File Path}" >
          <f:textbox name="publicFilePath" value="${instance.publicFilePath}" />
     </f:entry>
 

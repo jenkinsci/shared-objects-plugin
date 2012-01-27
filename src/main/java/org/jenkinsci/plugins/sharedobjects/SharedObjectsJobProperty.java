@@ -26,6 +26,7 @@ public class SharedObjectsJobProperty extends EnvInjectJobPropertyContributor {
         this.populateSharedObjects = populateSharedObjects;
     }
 
+    @SuppressWarnings("unused")
     public boolean getPopulateSharedObjects() {
         return populateSharedObjects;
     }
@@ -41,12 +42,16 @@ public class SharedObjectsJobProperty extends EnvInjectJobPropertyContributor {
         if (populateSharedObjects) {
             SharedObjectsDataStore dataStore = new SharedObjectsDataStore();
             try {
-                SharedObjectsType[] sharedObjectsTypes = dataStore.readSharedObjectsFile();
-                for (SharedObjectsType type : sharedObjectsTypes) {
+                SharedObjectType[] sharedObjectTypes = dataStore.readSharedObjectsFile();
+                for (SharedObjectType type : sharedObjectTypes) {
+<<<<<<< HEAD
                     result.put(type.getName(), type.getEnvVarValue());
+=======
+                    result.put(type.getName(), type.getEnvVarValue(listener));
+>>>>>>> 66bf4f4... Refactoring
                 }
 
-            } catch (SharedObjectsException se) {
+            } catch (SharedObjectException se) {
                 throw new EnvInjectException(se);
             }
         }

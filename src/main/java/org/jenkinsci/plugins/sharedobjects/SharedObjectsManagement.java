@@ -11,9 +11,9 @@ import org.kohsuke.stapler.StaplerProxy;
 @Extension
 public class SharedObjectsManagement extends ManagementLink implements StaplerProxy {
 
-    private SharedObjectsType[] types;
+    private SharedObjectType[] types;
 
-    public SharedObjectsType[] getTypes() {
+    public SharedObjectType[] getTypes() {
         return types;
     }
 
@@ -21,7 +21,7 @@ public class SharedObjectsManagement extends ManagementLink implements StaplerPr
     public SharedObjectsManagement() {
     }
 
-    public SharedObjectsManagement(SharedObjectsType[] types) {
+    public SharedObjectsManagement(SharedObjectType[] types) {
         this.types = types;
     }
 
@@ -41,10 +41,10 @@ public class SharedObjectsManagement extends ManagementLink implements StaplerPr
 
     public Object getTarget() {
         SharedObjectsDataStore store = new SharedObjectsDataStore();
-        SharedObjectsType[] types = new SharedObjectsType[0];
+        SharedObjectType[] types = new SharedObjectType[0];
         try {
             types = store.readSharedObjectsFile();
-        } catch (SharedObjectsException e) {
+        } catch (SharedObjectException e) {
             e.printStackTrace();
         }
         return new SharedObjectsManagementResult(types);
