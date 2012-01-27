@@ -1,0 +1,18 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define"        xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+
+    <f:entry title="${%Name}"
+             help="/descriptor/org.jenkinsci.plugins.sharedobjects.type.PublicFilePathSharedObjectType/help/name">
+         <f:textbox name="name" value="${instance.name}" />
+    </f:entry>
+
+    <f:entry title="${%View Name}"
+             help="/descriptor/org.jenkinsci.plugins.sharedobjects.type.ClearcaseSharedObjectType/help/viewName">
+         <f:textbox name="viewName" value="${instance.viewName}" />
+    </f:entry>
+
+    <f:entry title="${%Element Path}"
+             help="/descriptor/org.jenkinsci.plugins.sharedobjects.type.ClearcaseSharedObjectType/help/elementPath">
+         <f:textbox name="elementPath" value="${instance.elementPath}" />
+    </f:entry>
+
+</j:jelly>
