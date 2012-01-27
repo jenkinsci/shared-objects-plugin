@@ -2,7 +2,6 @@ package org.jenkinsci.plugins.sharedobjects;
 
 import hudson.DescriptorExtensionList;
 import hudson.model.Hudson;
-import hudson.util.XStream2;
 import net.sf.json.JSON;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
@@ -11,7 +10,7 @@ import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.StaplerResponse;
 
 import javax.servlet.ServletException;
-import java.io.*;
+import java.io.IOException;
 import java.util.List;
 
 import static hudson.Functions.checkPermission;

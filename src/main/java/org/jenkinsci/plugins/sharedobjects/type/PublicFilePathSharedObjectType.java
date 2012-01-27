@@ -1,14 +1,15 @@
 package org.jenkinsci.plugins.sharedobjects.type;
 
 import hudson.Extension;
-<<<<<<< HEAD
-=======
 import hudson.Util;
 import hudson.model.TaskListener;
->>>>>>> 66bf4f4... Refactoring
 import org.jenkinsci.plugins.sharedobjects.SharedObjectType;
 import org.jenkinsci.plugins.sharedobjects.SharedObjectTypeDescriptor;
 import org.kohsuke.stapler.DataBoundConstructor;
+
+<<<<<<<HEAD
+        =======
+        >>>>>>>66bf4f4...Refactoring
 
 /**
  * @author Gregory Boissinot
