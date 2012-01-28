@@ -6,13 +6,12 @@ import hudson.Launcher;
 import hudson.Util;
 import hudson.model.Hudson;
 import hudson.model.TaskListener;
-import hudson.tasks.BatchFile;
 import hudson.tasks.CommandInterpreter;
 import hudson.tasks.Shell;
-import hudson.util.ArgumentListBuilder;
 import org.jenkinsci.plugins.sharedobjects.SharedObjectException;
 import org.jenkinsci.plugins.sharedobjects.SharedObjectType;
 import org.jenkinsci.plugins.sharedobjects.SharedObjectTypeDescriptor;
+import org.jenkinsci.plugins.sharedobjects.service.SharedObjectLogger;
 import org.jenkinsci.plugins.sharedobjects.service.SharedObjectManagementFile;
 import org.kohsuke.stapler.DataBoundConstructor;
 
@@ -45,13 +44,13 @@ public class ClearcaseSharedObjectType extends SharedObjectType {
     }
 
     @Override
-    public String getEnvVarValue(TaskListener listener) throws SharedObjectException {
+    public String getEnvVarValue(SharedObjectLogger logger) throws SharedObjectException {
 
-        listener.getLogger().println(String.format("Executing a cleartool command to retrieve the shared object with the name %s.", name));
+        logger.info(String.format("Executing a cleartool command to retrieve the shared object with the name %s.", name));
         SharedObjectManagementFile sharedObjectManagementFile = new SharedObjectManagementFile();
         String tmpFilePath = sharedObjectManagementFile.getTemporaryFilePath(name);
         try {
-            int cmdCode = runCommandAndReturn(String.format("cleartool setview -exec 'cat %s 2>&1 | tee %s' %s", elementPath, tmpFilePath, viewName), listener);
+            int cmdCode = runCommandAndReturn(String.format("cleartool setview -exec 'cat %s 2>&1 | tee %s' %s", elementPath, tmpFilePath, viewName), logger.getListener());
             if (cmdCode != 0) {
                 throw new SharedObjectException("Command exit on failure.");
             }

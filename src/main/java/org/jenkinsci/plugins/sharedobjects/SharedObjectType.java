@@ -4,7 +4,7 @@ import hudson.ExtensionPoint;
 import hudson.model.Describable;
 import hudson.model.Descriptor;
 import hudson.model.Hudson;
-import hudson.model.TaskListener;
+import org.jenkinsci.plugins.sharedobjects.service.SharedObjectLogger;
 
 import java.io.Serializable;
 
@@ -25,5 +25,5 @@ public abstract class SharedObjectType implements ExtensionPoint, Describable<Sh
         return name;
     }
 
-    public abstract String getEnvVarValue(TaskListener listener) throws SharedObjectException;
+    public abstract String getEnvVarValue(SharedObjectLogger logger) throws SharedObjectException;
 }

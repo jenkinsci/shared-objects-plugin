@@ -26,6 +26,7 @@
         <developer>
             <id>gbois</id>
             <name>Gregory Boissinot</name>
+            <email>gregory.boissinot@gmail.com</email>
             <timezone>+1</timezone>
             <roles>
                 <role>Project Owner</role>
@@ -38,7 +39,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.6</maven.compiler.source>
         <maven.compiler.target>1.6</maven.compiler.target>
-        <envinject.plugin.version>1.13</envinject.plugin.version>
+        <envinject.plugin.version>1.16-SNAPSHOT</envinject.plugin.version>
     </properties>
 
     <scm>

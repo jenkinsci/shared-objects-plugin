@@ -2,9 +2,9 @@ package org.jenkinsci.plugins.sharedobjects.type;
 
 import hudson.Extension;
 import hudson.Util;
-import hudson.model.TaskListener;
 import org.jenkinsci.plugins.sharedobjects.SharedObjectType;
 import org.jenkinsci.plugins.sharedobjects.SharedObjectTypeDescriptor;
+import org.jenkinsci.plugins.sharedobjects.service.SharedObjectLogger;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 /**
@@ -25,7 +25,7 @@ public class PublicFilePathSharedObjectType extends SharedObjectType {
         return publicFilePath;
     }
 
-    public String getEnvVarValue(TaskListener listener) {
+    public String getEnvVarValue(SharedObjectLogger logger) {
         //TODO Resolve variables
         return publicFilePath;
     }
