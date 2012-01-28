@@ -12,7 +12,7 @@ public class AliasInitializer {
     @Initializer(before = InitMilestone.PLUGINS_STARTED)
     @SuppressWarnings("unused")
     public static void addAliases() {
-        Items.XSTREAM.alias("SharedObjectsManagement", SharedObjectsManagement.class);
+        Items.XSTREAM.alias("SharedObjectsManagement", SharedObjectManagement.class);
         for (SharedObjectTypeDescriptor descriptor : SharedObjectTypeDescriptor.all()) {
             Class<? extends SharedObjectType> classz = descriptor.getType();
             Items.XSTREAM.alias(getClassName(classz), classz);

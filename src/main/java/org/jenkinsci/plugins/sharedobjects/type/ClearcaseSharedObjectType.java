@@ -1,16 +1,21 @@
 package org.jenkinsci.plugins.sharedobjects.type;
 
 import hudson.Extension;
+import hudson.FilePath;
 import hudson.Launcher;
 import hudson.Util;
+import hudson.model.Hudson;
 import hudson.model.TaskListener;
+import hudson.tasks.BatchFile;
+import hudson.tasks.CommandInterpreter;
+import hudson.tasks.Shell;
 import hudson.util.ArgumentListBuilder;
 import org.jenkinsci.plugins.sharedobjects.SharedObjectException;
 import org.jenkinsci.plugins.sharedobjects.SharedObjectType;
 import org.jenkinsci.plugins.sharedobjects.SharedObjectTypeDescriptor;
+import org.jenkinsci.plugins.sharedobjects.service.SharedObjectManagementFile;
 import org.kohsuke.stapler.DataBoundConstructor;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 /**
@@ -42,8 +47,15 @@ public class ClearcaseSharedObjectType extends SharedObjectType {
     @Override
     public String getEnvVarValue(TaskListener listener) throws SharedObjectException {
 
+        listener.getLogger().println(String.format("Executing a cleartool command to retrieve the shared object with the name %s.", name));
+        SharedObjectManagementFile sharedObjectManagementFile = new SharedObjectManagementFile();
+        String tmpFilePath = sharedObjectManagementFile.getTemporaryFilePath(name);
         try {
-            return runCommandAndReturn(String.format("cleartool setview -exec 'cat %s' %s", elementPath, viewName), listener);
+            int cmdCode = runCommandAndReturn(String.format("cleartool setview -exec 'cat %s 2>&1 | tee %s' %s", elementPath, tmpFilePath, viewName), listener);
+            if (cmdCode != 0) {
+                throw new SharedObjectException("Command exit on failure.");
+            }
+            return tmpFilePath;
         } catch (IOException ioe) {
             throw new SharedObjectException(ioe);
         } catch (InterruptedException ie) {
@@ -51,17 +63,12 @@ public class ClearcaseSharedObjectType extends SharedObjectType {
         }
     }
 
-    private String runCommandAndReturn(String command, TaskListener listener) throws IOException, InterruptedException {
+    private int runCommandAndReturn(String command, TaskListener listener) throws IOException, InterruptedException {
         listener.getLogger().println("[SharedObject] - Running the command " + command);
         Launcher launcher = new Launcher.LocalLauncher(listener);
-        ArgumentListBuilder cmds = new ArgumentListBuilder();
-        cmds.addTokenized(command);
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        int cmdCode = launcher.launch().cmds(cmds).stdout(outputStream).join();
-        if (cmdCode != 0) {
-            return new String(outputStream.toByteArray());
-        }
-        return null;
+        CommandInterpreter batchRunner = new Shell(command);
+        FilePath tmpFile = batchRunner.createScriptFile(Hudson.getInstance().getRootPath());
+        return launcher.launch().cmds(batchRunner.buildCommandLine(tmpFile)).stdout(launcher.getListener()).join();
     }
 
     @Extension

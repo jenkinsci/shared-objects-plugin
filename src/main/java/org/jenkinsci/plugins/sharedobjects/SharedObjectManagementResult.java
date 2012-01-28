@@ -5,7 +5,7 @@ import hudson.model.Hudson;
 import net.sf.json.JSON;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
-import org.jenkinsci.plugins.sharedobjects.service.SharedObjectsDataStore;
+import org.jenkinsci.plugins.sharedobjects.service.SharedObjectDataStore;
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.StaplerResponse;
 
@@ -18,11 +18,11 @@ import static hudson.Functions.checkPermission;
 /**
  * @author Gregory Boissinot
  */
-public class SharedObjectsManagementResult {
+public class SharedObjectManagementResult {
 
     private SharedObjectType[] types;
 
-    public SharedObjectsManagementResult(SharedObjectType[] types) {
+    public SharedObjectManagementResult(SharedObjectType[] types) {
         this.types = types;
     }
 
@@ -52,14 +52,14 @@ public class SharedObjectsManagementResult {
         List<SharedObjectType> types = req.bindJSONToList(SharedObjectType.class, typesJSON);
         SharedObjectType[] typesArray = types.toArray(new SharedObjectType[types.size()]);
 
-        SharedObjectsDataStore store = new SharedObjectsDataStore();
+        SharedObjectDataStore store = new SharedObjectDataStore();
         try {
             store.writeSharedObjectsFile(typesArray);
         } catch (SharedObjectException e) {
             e.printStackTrace();
         }
 
-        rsp.sendRedirect2("/manage");
+        rsp.sendRedirect2(Hudson.getInstance().getRootUrl() + "/manage");
     }
 
 }

@@ -5,7 +5,7 @@ import hudson.model.TaskListener;
 import org.jenkinsci.lib.envinject.EnvInjectException;
 import org.jenkinsci.plugins.envinject.model.EnvInjectJobPropertyContributor;
 import org.jenkinsci.plugins.envinject.model.EnvInjectJobPropertyContributorDescriptor;
-import org.jenkinsci.plugins.sharedobjects.service.SharedObjectsDataStore;
+import org.jenkinsci.plugins.sharedobjects.service.SharedObjectDataStore;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 import java.util.HashMap;
@@ -14,15 +14,15 @@ import java.util.Map;
 /**
  * @author Gregory Boissinot
  */
-public class SharedObjectsJobProperty extends EnvInjectJobPropertyContributor {
+public class SharedObjectJobProperty extends EnvInjectJobPropertyContributor {
 
     private boolean populateSharedObjects;
 
-    public SharedObjectsJobProperty() {
+    public SharedObjectJobProperty() {
     }
 
     @DataBoundConstructor
-    public SharedObjectsJobProperty(boolean populateSharedObjects) {
+    public SharedObjectJobProperty(boolean populateSharedObjects) {
         this.populateSharedObjects = populateSharedObjects;
     }
 
@@ -40,7 +40,7 @@ public class SharedObjectsJobProperty extends EnvInjectJobPropertyContributor {
     public Map<String, String> getEnvVars(TaskListener listener) throws EnvInjectException {
         Map<String, String> result = new HashMap<String, String>();
         if (populateSharedObjects) {
-            SharedObjectsDataStore dataStore = new SharedObjectsDataStore();
+            SharedObjectDataStore dataStore = new SharedObjectDataStore();
             try {
                 SharedObjectType[] sharedObjectTypes = dataStore.readSharedObjectsFile();
                 for (SharedObjectType type : sharedObjectTypes) {

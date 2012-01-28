@@ -2,14 +2,14 @@ package org.jenkinsci.plugins.sharedobjects;
 
 import hudson.Extension;
 import hudson.model.ManagementLink;
-import org.jenkinsci.plugins.sharedobjects.service.SharedObjectsDataStore;
+import org.jenkinsci.plugins.sharedobjects.service.SharedObjectDataStore;
 import org.kohsuke.stapler.StaplerProxy;
 
 /**
  * @author Gregory Boissinot
  */
 @Extension
-public class SharedObjectsManagement extends ManagementLink implements StaplerProxy {
+public class SharedObjectManagement extends ManagementLink implements StaplerProxy {
 
     private SharedObjectType[] types;
 
@@ -18,10 +18,10 @@ public class SharedObjectsManagement extends ManagementLink implements StaplerPr
     }
 
     @SuppressWarnings("unused")
-    public SharedObjectsManagement() {
+    public SharedObjectManagement() {
     }
 
-    public SharedObjectsManagement(SharedObjectType[] types) {
+    public SharedObjectManagement(SharedObjectType[] types) {
         this.types = types;
     }
 
@@ -40,13 +40,13 @@ public class SharedObjectsManagement extends ManagementLink implements StaplerPr
     }
 
     public Object getTarget() {
-        SharedObjectsDataStore store = new SharedObjectsDataStore();
+        SharedObjectDataStore store = new SharedObjectDataStore();
         SharedObjectType[] types = new SharedObjectType[0];
         try {
             types = store.readSharedObjectsFile();
         } catch (SharedObjectException e) {
             e.printStackTrace();
         }
-        return new SharedObjectsManagementResult(types);
+        return new SharedObjectManagementResult(types);
     }
 }
