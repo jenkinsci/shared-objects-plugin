@@ -1,0 +1,9 @@
+<j:jelly xmlns:j="jelly:core" xmlns:f="/lib/form">
+
+    <f:entry field="populateToolInstallation" title="${%Populate Tool Installations}">
+        <f:checkbox
+                name="populateToolInstallation"
+                checked="${instance.populateToolInstallation}"/>
+    </f:entry>
+
+</j:jelly>

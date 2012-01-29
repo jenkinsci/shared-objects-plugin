@@ -1,0 +1,7 @@
+<div>
+  <p>
+      This plugin makes it possible to populate as environment variables some objects such as public file paths,
+      Clearcase objects, locations of installed tools and so on.
+      This plugin contributes to the EnvInject plugin.
+  </p>
+</div>
