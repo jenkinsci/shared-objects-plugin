@@ -12,7 +12,7 @@
     <artifactId>shared-objects</artifactId>
     <version>0.2-SNAPSHOT</version>
     <packaging>hpi</packaging>
-    <name>Jenkins Shared Objects Plug-in</name>
+    <name>Shared Objects Plugin</name>
     <url>https://wiki.jenkins-ci.org/display/JENKINS/SharedObjects+Plugin</url>
 
     <licenses>
@@ -39,7 +39,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.6</maven.compiler.source>
         <maven.compiler.target>1.6</maven.compiler.target>
-        <envinject.plugin.version>1.16-SNAPSHOT</envinject.plugin.version>
+        <envinject.plugin.version>1.16</envinject.plugin.version>
     </properties>
 
     <scm>
