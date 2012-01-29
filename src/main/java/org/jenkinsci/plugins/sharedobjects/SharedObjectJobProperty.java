@@ -1,7 +1,9 @@
 package org.jenkinsci.plugins.sharedobjects;
 
 import hudson.Extension;
+import hudson.model.Hudson;
 import hudson.model.TaskListener;
+import hudson.remoting.Callable;
 import org.jenkinsci.lib.envinject.EnvInjectException;
 import org.jenkinsci.plugins.envinject.model.EnvInjectJobPropertyContributor;
 import org.jenkinsci.plugins.envinject.model.EnvInjectJobPropertyContributorDescriptor;
@@ -9,6 +11,7 @@ import org.jenkinsci.plugins.sharedobjects.service.SharedObjectDataStore;
 import org.jenkinsci.plugins.sharedobjects.service.SharedObjectLogger;
 import org.kohsuke.stapler.DataBoundConstructor;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,9 +46,19 @@ public class SharedObjectJobProperty extends EnvInjectJobPropertyContributor {
         Map<String, String> result = new HashMap<String, String>();
         if (populateSharedObjects) {
             logger.info("Injecting shared objects as environment variables");
-            SharedObjectDataStore dataStore = new SharedObjectDataStore();
             try {
-                SharedObjectType[] sharedObjectTypes = dataStore.readSharedObjectsFile();
+                SharedObjectType[] sharedObjectTypes =
+                        Hudson.getInstance().getRootPath().act(new Callable<SharedObjectType[], EnvInjectException>() {
+                            public SharedObjectType[] call() throws EnvInjectException {
+                                SharedObjectDataStore dataStore = new SharedObjectDataStore();
+                                try {
+                                    return dataStore.readSharedObjectsFile();
+                                } catch (SharedObjectException e) {
+                                    throw new EnvInjectException(e);
+                                }
+                            }
+                        });
+
                 if (sharedObjectTypes != null) {
                     for (SharedObjectType type : sharedObjectTypes) {
                         if (type != null) {
@@ -56,6 +69,10 @@ public class SharedObjectJobProperty extends EnvInjectJobPropertyContributor {
 
             } catch (SharedObjectException se) {
                 throw new EnvInjectException(se);
+            } catch (IOException e) {
+                throw new EnvInjectException(e);
+            } catch (InterruptedException e) {
+                throw new EnvInjectException(e);
             }
         }
         return result;
