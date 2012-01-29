@@ -40,14 +40,18 @@ public class SharedObjectJobProperty extends EnvInjectJobPropertyContributor {
     @Override
     public Map<String, String> getEnvVars(TaskListener listener) throws EnvInjectException {
         SharedObjectLogger logger = new SharedObjectLogger(listener);
-        logger.info("Injecting shared objects as environment variables");
         Map<String, String> result = new HashMap<String, String>();
         if (populateSharedObjects) {
+            logger.info("Injecting shared objects as environment variables");
             SharedObjectDataStore dataStore = new SharedObjectDataStore();
             try {
                 SharedObjectType[] sharedObjectTypes = dataStore.readSharedObjectsFile();
-                for (SharedObjectType type : sharedObjectTypes) {
-                    result.put(type.getName(), type.getEnvVarValue(logger));
+                if (sharedObjectTypes != null) {
+                    for (SharedObjectType type : sharedObjectTypes) {
+                        if (type != null) {
+                            result.put(type.getName(), type.getEnvVarValue(logger));
+                        }
+                    }
                 }
 
             } catch (SharedObjectException se) {
