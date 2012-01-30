@@ -5,6 +5,11 @@
          <f:textbox name="name" value="${instance.name}" />
     </f:entry>
 
+     <f:entry title="${%Profile}"
+              help="/descriptor/org.jenkinsci.plugins.sharedobjects.type.PublicFilePathSharedObjectType/help/profile">
+          <f:textbox name="profile" value="${instance.profile}" />
+     </f:entry>
+
     <f:entry title="${%View Name}"
              help="/descriptor/org.jenkinsci.plugins.sharedobjects.type.ClearcaseSharedObjectType/help/viewName">
          <f:textbox name="viewName" value="${instance.viewName}" />

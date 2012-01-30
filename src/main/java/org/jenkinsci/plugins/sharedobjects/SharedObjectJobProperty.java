@@ -12,6 +12,7 @@ import org.jenkinsci.plugins.sharedobjects.service.SharedObjectLogger;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,17 +23,25 @@ public class SharedObjectJobProperty extends EnvInjectJobPropertyContributor {
 
     private boolean populateSharedObjects;
 
+    private String profiles;
+
     public SharedObjectJobProperty() {
     }
 
     @DataBoundConstructor
-    public SharedObjectJobProperty(boolean populateSharedObjects) {
+    public SharedObjectJobProperty(boolean populateSharedObjects, String profiles) {
         this.populateSharedObjects = populateSharedObjects;
+        this.profiles = profiles;
     }
 
     @SuppressWarnings("unused")
-    public boolean getPopulateSharedObjects() {
+    public boolean isPopulateSharedObjects() {
         return populateSharedObjects;
+    }
+
+    @SuppressWarnings("unused")
+    public String getProfiles() {
+        return profiles;
     }
 
     @Override
@@ -61,7 +70,7 @@ public class SharedObjectJobProperty extends EnvInjectJobPropertyContributor {
 
                 if (sharedObjectTypes != null) {
                     for (SharedObjectType type : sharedObjectTypes) {
-                        if (type != null) {
+                        if (type != null && isProfilActivated(profiles, type)) {
                             result.put(type.getName(), type.getEnvVarValue(logger));
                         }
                     }
@@ -76,6 +85,23 @@ public class SharedObjectJobProperty extends EnvInjectJobPropertyContributor {
             }
         }
         return result;
+    }
+
+    private boolean isProfilActivated(String profiles, SharedObjectType type) {
+        if (profiles == null) {
+            return true;
+        }
+        if (profiles.trim().length() == 0) {
+            return true;
+        }
+        String typeProfile = type.getProfile();
+        if (typeProfile == null) {
+            return true;
+        }
+        if (typeProfile.length() == 0) {
+            return true;
+        }
+        return Arrays.asList(profiles.split(";")).contains(typeProfile);
     }
 
     @Extension

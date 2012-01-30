@@ -6,4 +6,10 @@
                 checked="${instance.populateSharedObjects}"/>
     </f:entry>
 
+    <f:entry field="profiles" title="${%Restrict to selected profiles}">
+        <f:textbox
+                name="profiles"
+                value="${instance.profiles}"/>
+    </f:entry>
+
 </j:jelly>

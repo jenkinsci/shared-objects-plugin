@@ -11,7 +11,8 @@ import java.io.IOException;
  */
 public class SharedObjectManagementFile {
 
-    public String getTemporaryFilePath(String sharedObjectName) throws SharedObjectException {
+    public String getTemporaryFilePath(String sharedObjectName, String profileName) throws SharedObjectException {
+
         if (sharedObjectName == null) {
             throw new SharedObjectException("A shared object name is required.");
         }
@@ -24,7 +25,8 @@ public class SharedObjectManagementFile {
         } catch (InterruptedException e) {
             throw new SharedObjectException(e);
         }
-        FilePath tmpFile = tmpDir.child("_TMP_FETCHED_" + sharedObjectName);
+        String tmpFileName = sharedObjectName + ((profileName == null) ? "" : "-" + profileName);
+        FilePath tmpFile = tmpDir.child("_TMP_FETCHED_" + tmpFileName);
         return tmpFile.getRemote();
     }
 }

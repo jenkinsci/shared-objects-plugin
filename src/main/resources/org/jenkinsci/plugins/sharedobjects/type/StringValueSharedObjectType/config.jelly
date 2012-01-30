@@ -10,9 +10,9 @@
           <f:textbox name="profile" value="${instance.profile}" />
      </f:entry>
 
-    <f:entry title="${%Public File Path}"
-             help="/descriptor/org.jenkinsci.plugins.sharedobjects.type.PublicFilePathSharedObjectType/help/publicFilePath">
-         <f:textbox name="publicFilePath" value="${instance.publicFilePath}" />
+    <f:entry title="${%Value}"
+             help="/descriptor/org.jenkinsci.plugins.sharedobjects.type.StringValueSharedObjectType/help/value">
+         <f:textbox name="value" value="${instance.value}" />
     </f:entry>
 
 </j:jelly>

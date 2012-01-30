@@ -15,6 +15,8 @@ public abstract class SharedObjectType implements ExtensionPoint, Describable<Sh
 
     protected String name;
 
+    protected String profile;
+
     @Override
     public Descriptor<SharedObjectType> getDescriptor() {
         return (SharedObjectTypeDescriptor) Hudson.getInstance().getDescriptor(getClass());
@@ -23,6 +25,10 @@ public abstract class SharedObjectType implements ExtensionPoint, Describable<Sh
     @SuppressWarnings("unused")
     public String getName() {
         return name;
+    }
+
+    public String getProfile() {
+        return profile;
     }
 
     public abstract String getEnvVarValue(SharedObjectLogger logger) throws SharedObjectException;
