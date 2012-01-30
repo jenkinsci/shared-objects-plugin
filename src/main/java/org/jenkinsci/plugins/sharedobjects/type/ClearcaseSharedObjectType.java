@@ -27,8 +27,9 @@ public class ClearcaseSharedObjectType extends SharedObjectType {
     private String elementPath;
 
     @DataBoundConstructor
-    public ClearcaseSharedObjectType(String name, String viewName, String elementPath) {
+    public ClearcaseSharedObjectType(String name, String profile, String viewName, String elementPath) {
         this.name = Util.fixEmpty(name);
+        this.profile = Util.fixEmpty(profile);
         this.viewName = Util.fixEmpty(viewName);
         this.elementPath = Util.fixEmpty(elementPath);
     }
@@ -50,7 +51,7 @@ public class ClearcaseSharedObjectType extends SharedObjectType {
         SharedObjectManagementFile sharedObjectManagementFile = new SharedObjectManagementFile();
         String tmpFilePath = sharedObjectManagementFile.getTemporaryFilePath(name);
         try {
-            int cmdCode = runCommandAndReturn(String.format("cleartool setview -exec 'cat %s 2>&1 | tee %s' %s", elementPath, tmpFilePath, viewName), logger.getListener());
+            int cmdCode = runCommandAndReturn(String.format("cleartool setview -exec 'cat %s | tee %s' %s", elementPath, tmpFilePath, viewName), logger.getListener());
             if (cmdCode != 0) {
                 throw new SharedObjectException("Command exit on failure.");
             }
