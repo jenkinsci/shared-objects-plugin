@@ -49,7 +49,7 @@ public class ClearcaseSharedObjectType extends SharedObjectType {
 
         logger.info(String.format("Executing a cleartool command to retrieve the shared object with the name %s.", name));
         SharedObjectManagementFile sharedObjectManagementFile = new SharedObjectManagementFile();
-        String tmpFilePath = sharedObjectManagementFile.getTemporaryFilePath(name);
+        String tmpFilePath = sharedObjectManagementFile.getTemporaryFilePath(name, profile);
         try {
             int cmdCode = runCommandAndReturn(String.format("cleartool setview -exec 'cat %s | tee %s' %s", elementPath, tmpFilePath, viewName), logger.getListener());
             if (cmdCode != 0) {
