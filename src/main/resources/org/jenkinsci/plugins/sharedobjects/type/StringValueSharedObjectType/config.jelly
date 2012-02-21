@@ -1,18 +1,22 @@
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define"        xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
 
+    <f:entry title="${%Type}">
+         <label>"${descriptor.displayName}"</label>
+    </f:entry>
+
     <f:entry title="${%Name}"
              help="/descriptor/org.jenkinsci.plugins.sharedobjects.type.PublicFilePathSharedObjectType/help/name">
          <f:textbox name="name" value="${instance.name}" />
     </f:entry>
 
-     <f:entry title="${%Profile}"
-              help="/descriptor/org.jenkinsci.plugins.sharedobjects.type.PublicFilePathSharedObjectType/help/profile">
-          <f:textbox name="profile" value="${instance.profile}" />
+     <f:entry title="${%Profiles}"
+              help="/descriptor/org.jenkinsci.plugins.sharedobjects.type.PublicFilePathSharedObjectType/help/profiles">
+          <f:textbox name="profiles" value="${instance.profiles}" />
      </f:entry>
 
     <f:entry title="${%Value}"
              help="/descriptor/org.jenkinsci.plugins.sharedobjects.type.StringValueSharedObjectType/help/value">
-         <f:textbox name="value" value="${instance.value}" />
+         <f:textarea name="value" value="${instance.value}" />
     </f:entry>
 
 </j:jelly>

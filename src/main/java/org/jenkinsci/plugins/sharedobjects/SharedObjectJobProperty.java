@@ -1,6 +1,7 @@
 package org.jenkinsci.plugins.sharedobjects;
 
 import hudson.Extension;
+import hudson.Util;
 import hudson.model.Hudson;
 import hudson.model.TaskListener;
 import hudson.remoting.Callable;
@@ -14,6 +15,7 @@ import org.kohsuke.stapler.DataBoundConstructor;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,7 +33,7 @@ public class SharedObjectJobProperty extends EnvInjectJobPropertyContributor {
     @DataBoundConstructor
     public SharedObjectJobProperty(boolean populateSharedObjects, String profiles) {
         this.populateSharedObjects = populateSharedObjects;
-        this.profiles = profiles;
+        this.profiles = Util.fixEmptyAndTrim(profiles);
     }
 
     @SuppressWarnings("unused")
@@ -69,9 +71,29 @@ public class SharedObjectJobProperty extends EnvInjectJobPropertyContributor {
                         });
 
                 if (sharedObjectTypes != null) {
+
+                    boolean restrictionActivated = true;
+                    if (profiles == null) {
+                        restrictionActivated = false;
+                    }
+                    if (profiles.trim().length() == 0) {
+                        restrictionActivated = false;
+                    }
+
+                    if (restrictionActivated) {
+                        logger.info(String.format("Restricting shared objects to the following usage %s", profiles));
+                    }
+
                     for (SharedObjectType type : sharedObjectTypes) {
-                        if (type != null && isProfilActivated(profiles, type)) {
-                            result.put(type.getName(), type.getEnvVarValue(logger));
+                        if (type != null) {
+                            if (!restrictionActivated) {
+                                result.put(type.getName(), type.getEnvVarValue(logger));
+                                continue;
+                            }
+                            if (restrictionActivated && isProfileActivated(profiles, type)) {
+                                result.put(type.getName(), type.getEnvVarValue(logger));
+                                continue;
+                            }
                         }
                     }
                 }
@@ -87,21 +109,24 @@ public class SharedObjectJobProperty extends EnvInjectJobPropertyContributor {
         return result;
     }
 
-    private boolean isProfilActivated(String profiles, SharedObjectType type) {
-        if (profiles == null) {
+    private boolean isProfileActivated(String profiles, SharedObjectType type) {
+        String profilesType = type.getProfiles();
+        if (profilesType == null) {
             return true;
         }
-        if (profiles.trim().length() == 0) {
+        if (profilesType.length() == 0) {
             return true;
         }
-        String typeProfile = type.getProfile();
-        if (typeProfile == null) {
-            return true;
+
+        String profilesTypeArray[] = profilesType.split(";");
+
+        List<String> profilesJobs = Arrays.asList(profiles.split(";"));
+        for (String profileType : profilesTypeArray) {
+            if (profilesJobs.contains(profileType)) {
+                return true;
+            }
         }
-        if (typeProfile.length() == 0) {
-            return true;
-        }
-        return Arrays.asList(profiles.split(";")).contains(typeProfile);
+        return false;
     }
 
     @Extension

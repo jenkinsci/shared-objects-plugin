@@ -15,7 +15,9 @@ public abstract class SharedObjectType implements ExtensionPoint, Describable<Sh
 
     protected String name;
 
-    protected String profile;
+    protected transient String profile;
+
+    protected String profiles;
 
     @Override
     public Descriptor<SharedObjectType> getDescriptor() {
@@ -27,8 +29,11 @@ public abstract class SharedObjectType implements ExtensionPoint, Describable<Sh
         return name;
     }
 
-    public String getProfile() {
-        return profile;
+    public String getProfiles() {
+        if (profile != null) {
+            profiles = profile;
+        }
+        return profiles;
     }
 
     public abstract String getEnvVarValue(SharedObjectLogger logger) throws SharedObjectException;

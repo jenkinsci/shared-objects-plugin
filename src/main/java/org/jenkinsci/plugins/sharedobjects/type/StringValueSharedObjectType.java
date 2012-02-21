@@ -16,10 +16,10 @@ public class StringValueSharedObjectType extends SharedObjectType {
     private String value;
 
     @DataBoundConstructor
-    public StringValueSharedObjectType(String name, String profile, String value) {
-        this.name = Util.fixEmpty(name);
-        this.profile = Util.fixEmpty(profile);
-        this.value = Util.fixEmpty(value);
+    public StringValueSharedObjectType(String name, String profiles, String value) {
+        this.name = Util.fixEmptyAndTrim(name);
+        this.profiles = Util.fixEmptyAndTrim(profiles);
+        this.value = Util.fixEmptyAndTrim(value);
     }
 
     public String getValue() {
@@ -36,7 +36,7 @@ public class StringValueSharedObjectType extends SharedObjectType {
 
         @Override
         public String getDisplayName() {
-            return "Simple value";
+            return "Simple content";
         }
 
         @Override

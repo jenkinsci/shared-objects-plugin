@@ -27,11 +27,11 @@ public class ClearcaseSharedObjectType extends SharedObjectType {
     private String elementPath;
 
     @DataBoundConstructor
-    public ClearcaseSharedObjectType(String name, String profile, String viewName, String elementPath) {
-        this.name = Util.fixEmpty(name);
-        this.profile = Util.fixEmpty(profile);
-        this.viewName = Util.fixEmpty(viewName);
-        this.elementPath = Util.fixEmpty(elementPath);
+    public ClearcaseSharedObjectType(String name, String profiles, String viewName, String elementPath) {
+        this.name = Util.fixEmptyAndTrim(name);
+        this.profiles = Util.fixEmptyAndTrim(profiles);
+        this.viewName = Util.fixEmptyAndTrim(viewName);
+        this.elementPath = Util.fixEmptyAndTrim(elementPath);
     }
 
     @SuppressWarnings("unused")

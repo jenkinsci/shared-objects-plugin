@@ -15,10 +15,10 @@ public class PublicFilePathSharedObjectType extends SharedObjectType {
     private String publicFilePath;
 
     @DataBoundConstructor
-    public PublicFilePathSharedObjectType(String name, String profile, String publicFilePath) {
-        this.name = Util.fixEmpty(name);
-        this.profile = Util.fixEmpty(profile);
-        this.publicFilePath = Util.fixEmpty(publicFilePath);
+    public PublicFilePathSharedObjectType(String name, String profiles, String publicFilePath) {
+        this.name = Util.fixEmptyAndTrim(name);
+        this.profiles = Util.fixEmptyAndTrim(profiles);
+        this.publicFilePath = Util.fixEmptyAndTrim(publicFilePath);
     }
 
     @SuppressWarnings("unused")
