@@ -2,6 +2,7 @@ package org.jenkinsci.plugins.sharedobjects;
 
 import hudson.Extension;
 import hudson.Util;
+import hudson.model.AbstractBuild;
 import hudson.model.Hudson;
 import hudson.model.TaskListener;
 import hudson.remoting.Callable;
@@ -48,11 +49,11 @@ public class SharedObjectJobProperty extends EnvInjectJobPropertyContributor {
 
     @Override
     public void init() {
-        populateSharedObjects = true;
+        populateSharedObjects = false;
     }
 
     @Override
-    public Map<String, String> getEnvVars(TaskListener listener) throws EnvInjectException {
+    public Map<String, String> getEnvVars(AbstractBuild build, TaskListener listener) throws EnvInjectException {
         SharedObjectLogger logger = new SharedObjectLogger(listener);
         Map<String, String> result = new HashMap<String, String>();
         if (populateSharedObjects) {
@@ -87,11 +88,11 @@ public class SharedObjectJobProperty extends EnvInjectJobPropertyContributor {
                     for (SharedObjectType type : sharedObjectTypes) {
                         if (type != null) {
                             if (!restrictionActivated) {
-                                result.put(type.getName(), type.getEnvVarValue(logger));
+                                result.put(type.getName(), type.getEnvVarValue(build, logger));
                                 continue;
                             }
                             if (restrictionActivated && isProfileActivated(profiles, type)) {
-                                result.put(type.getName(), type.getEnvVarValue(logger));
+                                result.put(type.getName(), type.getEnvVarValue(build, logger));
                                 continue;
                             }
                         }

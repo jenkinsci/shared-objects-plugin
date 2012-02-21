@@ -2,6 +2,7 @@ package org.jenkinsci.plugins.sharedobjects.type;
 
 import hudson.Extension;
 import hudson.Util;
+import hudson.model.AbstractBuild;
 import org.jenkinsci.plugins.sharedobjects.SharedObjectType;
 import org.jenkinsci.plugins.sharedobjects.SharedObjectTypeDescriptor;
 import org.jenkinsci.plugins.sharedobjects.service.SharedObjectLogger;
@@ -26,7 +27,7 @@ public class PublicFilePathSharedObjectType extends SharedObjectType {
         return publicFilePath;
     }
 
-    public String getEnvVarValue(SharedObjectLogger logger) {
+    public String getEnvVarValue(AbstractBuild build, SharedObjectLogger logger) {
         //TODO Resolve variables
         return publicFilePath;
     }

@@ -2,6 +2,7 @@ package org.jenkinsci.plugins.sharedobjects.type;
 
 import hudson.Extension;
 import hudson.Util;
+import hudson.model.AbstractBuild;
 import org.jenkinsci.plugins.sharedobjects.SharedObjectException;
 import org.jenkinsci.plugins.sharedobjects.SharedObjectType;
 import org.jenkinsci.plugins.sharedobjects.SharedObjectTypeDescriptor;
@@ -27,7 +28,7 @@ public class StringValueSharedObjectType extends SharedObjectType {
     }
 
     @Override
-    public String getEnvVarValue(SharedObjectLogger logger) throws SharedObjectException {
+    public String getEnvVarValue(AbstractBuild build, SharedObjectLogger logger) throws SharedObjectException {
         return value;
     }
 

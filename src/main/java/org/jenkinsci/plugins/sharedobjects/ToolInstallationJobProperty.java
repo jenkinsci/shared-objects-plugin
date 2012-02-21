@@ -2,6 +2,7 @@ package org.jenkinsci.plugins.sharedobjects;
 
 import hudson.EnvVars;
 import hudson.Extension;
+import hudson.model.AbstractBuild;
 import hudson.model.Computer;
 import hudson.model.EnvironmentSpecific;
 import hudson.model.TaskListener;
@@ -43,7 +44,7 @@ public class ToolInstallationJobProperty extends EnvInjectJobPropertyContributor
     }
 
     @Override
-    public Map<String, String> getEnvVars(TaskListener listener) throws EnvInjectException {
+    public Map<String, String> getEnvVars(AbstractBuild build, TaskListener listener) throws EnvInjectException {
         SharedObjectLogger logger = new SharedObjectLogger(listener);
         Map<String, String> result = new HashMap<String, String>();
         if (populateToolInstallation) {

@@ -4,6 +4,7 @@ import hudson.Extension;
 import hudson.FilePath;
 import hudson.Launcher;
 import hudson.Util;
+import hudson.model.AbstractBuild;
 import hudson.model.Hudson;
 import hudson.model.TaskListener;
 import hudson.tasks.CommandInterpreter;
@@ -45,11 +46,11 @@ public class ClearcaseSharedObjectType extends SharedObjectType {
     }
 
     @Override
-    public String getEnvVarValue(SharedObjectLogger logger) throws SharedObjectException {
+    public String getEnvVarValue(AbstractBuild build, SharedObjectLogger logger) throws SharedObjectException {
 
         logger.info(String.format("Executing a cleartool command to retrieve the shared object with the name %s.", name));
         SharedObjectManagementFile sharedObjectManagementFile = new SharedObjectManagementFile();
-        String tmpFilePath = sharedObjectManagementFile.getTemporaryFilePath(name, profile);
+        String tmpFilePath = sharedObjectManagementFile.getTemporaryFilePath(build, name, profiles);
         try {
             int cmdCode = runCommandAndReturn(String.format("cleartool setview -exec 'cat %s | tee %s' %s", elementPath, tmpFilePath, viewName), logger.getListener());
             if (cmdCode != 0) {

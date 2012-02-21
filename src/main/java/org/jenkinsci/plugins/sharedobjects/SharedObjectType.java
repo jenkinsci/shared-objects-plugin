@@ -1,6 +1,7 @@
 package org.jenkinsci.plugins.sharedobjects;
 
 import hudson.ExtensionPoint;
+import hudson.model.AbstractBuild;
 import hudson.model.Describable;
 import hudson.model.Descriptor;
 import hudson.model.Hudson;
@@ -36,5 +37,5 @@ public abstract class SharedObjectType implements ExtensionPoint, Describable<Sh
         return profiles;
     }
 
-    public abstract String getEnvVarValue(SharedObjectLogger logger) throws SharedObjectException;
+    public abstract String getEnvVarValue(AbstractBuild build, SharedObjectLogger logger) throws SharedObjectException;
 }
