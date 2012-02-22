@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>shared-objects</artifactId>
-    <version>0.7-SNAPSHOT</version>
+    <version>0.7</version>
     <packaging>hpi</packaging>
     <name>Shared Objects Plugin</name>
     <url>https://wiki.jenkins-ci.org/display/JENKINS/SharedObjects+Plugin</url>
