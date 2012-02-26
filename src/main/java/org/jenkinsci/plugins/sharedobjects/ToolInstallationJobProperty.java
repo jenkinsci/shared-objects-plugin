@@ -67,10 +67,20 @@ public class ToolInstallationJobProperty extends EnvInjectJobPropertyContributor
                         tool = (ToolInstallation) ((EnvironmentSpecific<?>) tool).forEnvironment(e);
                     }
 
-                    result.put(tool.getName(), tool.getHome());
+                    result.put(processToolName(tool.getName()), tool.getHome());
                 }
             }
         }
+        return result;
+    }
+
+    private String processToolName(String name) {
+        if (name == null) {
+            return null;
+        }
+
+        String result = name.replace("-", "_");
+        result = result.replace(" ", "_");
         return result;
     }
 
