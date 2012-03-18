@@ -5,20 +5,20 @@ import hudson.Util;
 import hudson.model.AbstractBuild;
 import org.jenkinsci.plugins.sharedobjects.SharedObjectType;
 import org.jenkinsci.plugins.sharedobjects.SharedObjectTypeDescriptor;
+import org.jenkinsci.plugins.sharedobjects.SimpleSharedObjectType;
 import org.jenkinsci.plugins.sharedobjects.service.SharedObjectLogger;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 /**
  * @author Gregory Boissinot
  */
-public class PublicFilePathSharedObjectType extends SharedObjectType {
+public class PublicFilePathSharedObjectType extends SimpleSharedObjectType {
 
     private String publicFilePath;
 
     @DataBoundConstructor
     public PublicFilePathSharedObjectType(String name, String profiles, String publicFilePath) {
-        this.name = Util.fixEmptyAndTrim(name);
-        this.profiles = Util.fixEmptyAndTrim(profiles);
+        super(Util.fixEmptyAndTrim(name), Util.fixEmptyAndTrim(profiles));
         this.publicFilePath = Util.fixEmptyAndTrim(publicFilePath);
     }
 
@@ -28,7 +28,7 @@ public class PublicFilePathSharedObjectType extends SharedObjectType {
     }
 
     public String getEnvVarValue(AbstractBuild build, SharedObjectLogger logger) {
-        //TODO Resolve variables
+        logger.info(String.format("Populating the file path %s associated to the shared object with the name %s.", publicFilePath, name));
         return publicFilePath;
     }
 

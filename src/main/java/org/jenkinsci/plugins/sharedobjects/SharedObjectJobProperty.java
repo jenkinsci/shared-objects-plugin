@@ -74,10 +74,7 @@ public class SharedObjectJobProperty extends EnvInjectJobPropertyContributor {
                 if (sharedObjectTypes != null) {
 
                     boolean restrictionActivated = true;
-                    if (profiles == null) {
-                        restrictionActivated = false;
-                    }
-                    if (profiles.trim().length() == 0) {
+                    if (profiles == null || profiles.trim().length() == 0) {
                         restrictionActivated = false;
                     }
 
@@ -88,11 +85,11 @@ public class SharedObjectJobProperty extends EnvInjectJobPropertyContributor {
                     for (SharedObjectType type : sharedObjectTypes) {
                         if (type != null) {
                             if (!restrictionActivated) {
-                                result.put(type.getName(), type.getEnvVarValue(build, logger));
+                                addSharedObject(result, type, build, logger);
                                 continue;
                             }
                             if (restrictionActivated && isProfileActivated(profiles, type)) {
-                                result.put(type.getName(), type.getEnvVarValue(build, logger));
+                                addSharedObject(result, type, build, logger);
                                 continue;
                             }
                         }
@@ -108,6 +105,28 @@ public class SharedObjectJobProperty extends EnvInjectJobPropertyContributor {
             }
         }
         return result;
+    }
+
+    private void addSharedObject(Map<String, String> result, SharedObjectType type, AbstractBuild build, SharedObjectLogger logger) throws SharedObjectException {
+
+        if (type instanceof SimpleSharedObjectType) {
+            SimpleSharedObjectType simpleSharedObjectType = (SimpleSharedObjectType) type;
+            String value = simpleSharedObjectType.getEnvVarValue(build, logger);
+            if (value != null) {
+                result.put(simpleSharedObjectType.getName(), value);
+            }
+            return;
+        }
+
+        if (type instanceof MultipleSharedObjectType) {
+            MultipleSharedObjectType multipleSharedObjectType = (MultipleSharedObjectType) type;
+            Map<String, String> envVars = multipleSharedObjectType.getEnvVarValue(build, logger);
+            if (envVars != null) {
+                result.putAll(envVars);
+            }
+            return;
+        }
+
     }
 
     private boolean isProfileActivated(String profiles, SharedObjectType type) {

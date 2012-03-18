@@ -6,20 +6,20 @@ import hudson.model.AbstractBuild;
 import org.jenkinsci.plugins.sharedobjects.SharedObjectException;
 import org.jenkinsci.plugins.sharedobjects.SharedObjectType;
 import org.jenkinsci.plugins.sharedobjects.SharedObjectTypeDescriptor;
+import org.jenkinsci.plugins.sharedobjects.SimpleSharedObjectType;
 import org.jenkinsci.plugins.sharedobjects.service.SharedObjectLogger;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 /**
  * @author Gregory Boissinot
  */
-public class StringValueSharedObjectType extends SharedObjectType {
+public class StringValueSharedObjectType extends SimpleSharedObjectType {
 
     private String value;
 
     @DataBoundConstructor
     public StringValueSharedObjectType(String name, String profiles, String value) {
-        this.name = Util.fixEmptyAndTrim(name);
-        this.profiles = Util.fixEmptyAndTrim(profiles);
+        super(Util.fixEmptyAndTrim(name), Util.fixEmptyAndTrim(profiles));
         this.value = Util.fixEmptyAndTrim(value);
     }
 
@@ -29,6 +29,7 @@ public class StringValueSharedObjectType extends SharedObjectType {
 
     @Override
     public String getEnvVarValue(AbstractBuild build, SharedObjectLogger logger) throws SharedObjectException {
+        logger.info(String.format("Populating a string value to the shared object with the name %s.", name));
         return value;
     }
 
@@ -42,7 +43,7 @@ public class StringValueSharedObjectType extends SharedObjectType {
 
         @Override
         public Class<? extends SharedObjectType> getType() {
-            return ClearcaseSharedObjectType.class;
+            return StringValueSharedObjectType.class;
         }
     }
 }

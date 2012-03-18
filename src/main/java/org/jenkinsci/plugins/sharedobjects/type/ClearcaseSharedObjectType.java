@@ -12,6 +12,7 @@ import hudson.tasks.Shell;
 import org.jenkinsci.plugins.sharedobjects.SharedObjectException;
 import org.jenkinsci.plugins.sharedobjects.SharedObjectType;
 import org.jenkinsci.plugins.sharedobjects.SharedObjectTypeDescriptor;
+import org.jenkinsci.plugins.sharedobjects.SimpleSharedObjectType;
 import org.jenkinsci.plugins.sharedobjects.service.SharedObjectLogger;
 import org.jenkinsci.plugins.sharedobjects.service.SharedObjectManagementFile;
 import org.kohsuke.stapler.DataBoundConstructor;
@@ -21,7 +22,7 @@ import java.io.IOException;
 /**
  * @author Gregory Boissinot
  */
-public class ClearcaseSharedObjectType extends SharedObjectType {
+public class ClearcaseSharedObjectType extends SimpleSharedObjectType {
 
     private String viewName;
 
@@ -29,8 +30,7 @@ public class ClearcaseSharedObjectType extends SharedObjectType {
 
     @DataBoundConstructor
     public ClearcaseSharedObjectType(String name, String profiles, String viewName, String elementPath) {
-        this.name = Util.fixEmptyAndTrim(name);
-        this.profiles = Util.fixEmptyAndTrim(profiles);
+        super(Util.fixEmptyAndTrim(name), Util.fixEmptyAndTrim(profiles));
         this.viewName = Util.fixEmptyAndTrim(viewName);
         this.elementPath = Util.fixEmptyAndTrim(elementPath);
     }

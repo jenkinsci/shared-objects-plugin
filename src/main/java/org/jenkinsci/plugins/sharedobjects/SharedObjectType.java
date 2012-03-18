@@ -1,11 +1,9 @@
 package org.jenkinsci.plugins.sharedobjects;
 
 import hudson.ExtensionPoint;
-import hudson.model.AbstractBuild;
 import hudson.model.Describable;
 import hudson.model.Descriptor;
 import hudson.model.Hudson;
-import org.jenkinsci.plugins.sharedobjects.service.SharedObjectLogger;
 
 import java.io.Serializable;
 
@@ -19,6 +17,11 @@ public abstract class SharedObjectType implements ExtensionPoint, Describable<Sh
     protected transient String profile;
 
     protected String profiles;
+
+    protected SharedObjectType(String name, String profiles) {
+        this.name = name;
+        this.profiles = profiles;
+    }
 
     @Override
     public Descriptor<SharedObjectType> getDescriptor() {
@@ -36,6 +39,4 @@ public abstract class SharedObjectType implements ExtensionPoint, Describable<Sh
         }
         return profiles;
     }
-
-    public abstract String getEnvVarValue(AbstractBuild build, SharedObjectLogger logger) throws SharedObjectException;
 }
