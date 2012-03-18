@@ -77,7 +77,7 @@ public class ClearcaseSharedObjectType extends SimpleSharedObjectType {
 
         @Override
         public String getDisplayName() {
-            return "Clearcase Element";
+            return "Clearcase Element (Unix only)";
         }
 
         @Override
