@@ -59,7 +59,7 @@ public class SharedObjectManagementResult {
             e.printStackTrace();
         }
 
-        rsp.sendRedirect2(Hudson.getInstance().getRootUrl() + "/manage");
+        rsp.sendRedirect2("../manage");
     }
 
 }
