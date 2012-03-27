@@ -15,8 +15,9 @@ public class SharedObjectDataStore {
 
     public void writeSharedObjectsFile(SharedObjectType[] types) throws SharedObjectException {
         XStream2 xStream2 = new XStream2();
-        File sharedObjectsFile = new File(Hudson.getInstance().getRootDir(), "sharedObjects.xml");
-        sharedObjectsFile.mkdirs();
+        File sharedObjectFileDir = Hudson.getInstance().getRootDir();
+        sharedObjectFileDir.mkdirs();
+        File sharedObjectsFile = new File(sharedObjectFileDir, "sharedObjects.xml");
         FileWriter fileWriter = null;
         try {
             fileWriter = new FileWriter(sharedObjectsFile, false);
