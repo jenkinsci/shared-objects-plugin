@@ -20,11 +20,11 @@ public class SharedObjectLogger implements Serializable {
     }
 
     public void info(String message) {
-        listener.getLogger().println("[SharedObject] - " + message);
+        listener.getLogger().println("[SharedObjects] - " + message);
     }
 
     public void error(String message) {
-        listener.getLogger().println("[SharedObject] - [ERROR] - " + message);
+        listener.getLogger().println("[SharedObjects] - [ERROR] - " + message);
     }
 }
 
