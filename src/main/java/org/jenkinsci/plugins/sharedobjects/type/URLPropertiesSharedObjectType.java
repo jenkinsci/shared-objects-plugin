@@ -39,7 +39,7 @@ public class URLPropertiesSharedObjectType extends MultipleSharedObjectType {
     }
 
     @Override
-    public Map<String, String> getEnvVarValue(AbstractBuild build, SharedObjectLogger logger) throws SharedObjectException {
+    public Map<String, String> getEnvVars(AbstractBuild build, SharedObjectLogger logger) throws SharedObjectException {
 
         logger.info(String.format("Trying to retrieve a properties file through the url value %s associated to the shared object with the name %s.", url, name));
 
@@ -79,6 +79,7 @@ public class URLPropertiesSharedObjectType extends MultipleSharedObjectType {
         for (Map.Entry<Object, Object> entry : properties.entrySet()) {
             result.put(String.valueOf(entry.getKey()), String.valueOf(entry.getValue()));
         }
+
         return result;
 
     }
