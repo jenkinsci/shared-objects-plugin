@@ -38,7 +38,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.6</maven.compiler.source>
         <maven.compiler.target>1.6</maven.compiler.target>
-        <envinject.plugin.version>1.49</envinject.plugin.version>
+        <envinject.plugin.version>1.50</envinject.plugin.version>
         <jersey.client.version>1.9.1</jersey.client.version>
     </properties>
 
