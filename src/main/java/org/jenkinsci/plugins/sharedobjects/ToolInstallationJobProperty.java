@@ -81,6 +81,7 @@ public class ToolInstallationJobProperty extends EnvInjectJobPropertyContributor
 
         String result = name.replace("-", "_");
         result = result.replace(" ", "_");
+        result = result.replace(".", "_");
         return result;
     }
 
