@@ -1,6 +1,7 @@
 package org.jenkinsci.plugins.sharedobjects;
 
 import hudson.ExtensionPoint;
+import hudson.Util;
 import hudson.model.Describable;
 import hudson.model.Descriptor;
 import hudson.model.Hudson;
@@ -19,8 +20,8 @@ public abstract class SharedObjectType implements ExtensionPoint, Describable<Sh
     protected String profiles;
 
     protected SharedObjectType(String name, String profiles) {
-        this.name = name;
-        this.profiles = profiles;
+        this.name = Util.fixEmptyAndTrim(name);
+        this.profiles = Util.fixEmptyAndTrim(profiles);
     }
 
     @Override

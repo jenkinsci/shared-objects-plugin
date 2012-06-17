@@ -19,7 +19,7 @@ public class StringValueSharedObjectType extends SimpleSharedObjectType {
 
     @DataBoundConstructor
     public StringValueSharedObjectType(String name, String profiles, String value) {
-        super(Util.fixEmptyAndTrim(name), Util.fixEmptyAndTrim(profiles));
+        super(name, profiles);
         this.value = Util.fixEmptyAndTrim(value);
     }
 

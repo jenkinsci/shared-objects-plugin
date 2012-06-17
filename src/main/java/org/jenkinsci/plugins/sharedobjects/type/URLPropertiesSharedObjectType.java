@@ -29,7 +29,7 @@ public class URLPropertiesSharedObjectType extends MultipleSharedObjectType {
 
     @DataBoundConstructor
     public URLPropertiesSharedObjectType(String name, String profiles, String url) {
-        super(Util.fixEmptyAndTrim(name), Util.fixEmptyAndTrim(profiles));
+        super(name, profiles);
         this.url = Util.fixEmpty(url);
     }
 

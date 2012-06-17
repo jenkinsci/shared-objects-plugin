@@ -30,7 +30,7 @@ public class ClearcaseSharedObjectType extends SimpleSharedObjectType {
 
     @DataBoundConstructor
     public ClearcaseSharedObjectType(String name, String profiles, String viewName, String elementPath) {
-        super(Util.fixEmptyAndTrim(name), Util.fixEmptyAndTrim(profiles));
+        super(name, profiles);
         this.viewName = Util.fixEmptyAndTrim(viewName);
         this.elementPath = Util.fixEmptyAndTrim(elementPath);
     }

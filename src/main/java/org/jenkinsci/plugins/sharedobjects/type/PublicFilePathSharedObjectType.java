@@ -18,7 +18,7 @@ public class PublicFilePathSharedObjectType extends SimpleSharedObjectType {
 
     @DataBoundConstructor
     public PublicFilePathSharedObjectType(String name, String profiles, String publicFilePath) {
-        super(Util.fixEmptyAndTrim(name), Util.fixEmptyAndTrim(profiles));
+        super(name, profiles);
         this.publicFilePath = Util.fixEmptyAndTrim(publicFilePath);
     }
 
