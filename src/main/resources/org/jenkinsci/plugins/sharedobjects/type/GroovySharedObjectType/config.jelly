@@ -1,0 +1,22 @@
+<j:jelly xmlns:j="jelly:core" xmlns:f="/lib/form">
+
+    <f:entry title="${%Type}">
+        <label>"${descriptor.displayName}"</label>
+    </f:entry>
+
+    <f:entry title="${%Name}"
+             help="/descriptor/org.jenkinsci.plugins.sharedobjects.type.PublicFilePathSharedObjectType/help/name">
+        <f:textbox name="name" value="${instance.name}"/>
+    </f:entry>
+
+    <f:entry title="${%Profiles}"
+             help="/descriptor/org.jenkinsci.plugins.sharedobjects.type.PublicFilePathSharedObjectType/help/profiles">
+        <f:textbox name="profiles" value="${instance.profiles}"/>
+    </f:entry>
+
+    <f:entry title="${%Groovy script}"
+             help="/descriptor/org.jenkinsci.plugins.sharedobjects.type.GroovySharedObjectType/help/content">
+        <f:textarea name="content" value="${instance.content}"/>
+    </f:entry>
+
+</j:jelly>
