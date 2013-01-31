@@ -3,6 +3,7 @@ package org.jenkinsci.plugins.sharedobjects.type;
 import groovy.lang.GroovyShell;
 import hudson.Extension;
 import hudson.model.AbstractBuild;
+import hudson.model.Hudson;
 import org.jenkinsci.plugins.sharedobjects.MultipleSharedObjectType;
 import org.jenkinsci.plugins.sharedobjects.SharedObjectException;
 import org.jenkinsci.plugins.sharedobjects.SharedObjectType;
@@ -42,7 +43,7 @@ public class GroovySharedObjectType extends MultipleSharedObjectType {
         }
 
         logger.info(String.format("Evaluation the following Groovy script content: \n%s\n", content));
-        GroovyShell shell = new GroovyShell();
+        GroovyShell shell = new GroovyShell(Hudson.getInstance().getPluginManager().uberClassLoader);
         Object groovyResult = shell.evaluate(content);
         if (groovyResult != null && !(groovyResult instanceof Map)) {
             throw new SharedObjectException("The evaluated Groovy script must return a Map object.");
