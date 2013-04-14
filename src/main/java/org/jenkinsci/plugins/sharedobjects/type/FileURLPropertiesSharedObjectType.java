@@ -1,12 +1,9 @@
 package org.jenkinsci.plugins.sharedobjects.type;
 
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.config.ClientConfig;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
 import hudson.Extension;
 import hudson.Util;
 import hudson.model.AbstractBuild;
+import org.apache.commons.io.FileUtils;
 import org.jenkinsci.plugins.sharedobjects.MultipleSharedObjectType;
 import org.jenkinsci.plugins.sharedobjects.SharedObjectException;
 import org.jenkinsci.plugins.sharedobjects.SharedObjectType;
@@ -14,6 +11,7 @@ import org.jenkinsci.plugins.sharedobjects.SharedObjectTypeDescriptor;
 import org.jenkinsci.plugins.sharedobjects.service.SharedObjectLogger;
 import org.kohsuke.stapler.DataBoundConstructor;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.HashMap;
@@ -23,43 +21,39 @@ import java.util.Properties;
 /**
  * @author Gregory Boissinot
  */
-public class URLPropertiesSharedObjectType extends MultipleSharedObjectType {
+public class FileURLPropertiesSharedObjectType extends MultipleSharedObjectType {
 
-    private String url;
+    private String propertiesFile;
 
     @DataBoundConstructor
-    public URLPropertiesSharedObjectType(String name, String profiles, String url) {
+    public FileURLPropertiesSharedObjectType(String name, String profiles, String propertiesFile) {
         super(name, profiles);
-        this.url = Util.fixEmpty(url);
+        this.propertiesFile = Util.fixEmptyAndTrim(propertiesFile);
     }
 
-    @SuppressWarnings("unused")
-    public String getUrl() {
-        return url;
+    public String getPropertiesFile() {
+        return propertiesFile;
     }
 
     @Override
     public Map<String, String> getEnvVars(AbstractBuild build, SharedObjectLogger logger) throws SharedObjectException {
 
-        logger.info(String.format("Trying to retrieve a properties file through the url value %s associated to the shared object with the name %s.", url, name));
+        logger.info(String.format("Trying to retrieve a properties file through the url value %s associated to the shared object with the name %s.", propertiesFile, name));
 
-        if (url == null) {
+        if (propertiesFile == null) {
             return null;
         }
 
-        ClientConfig cc = new DefaultClientConfig();
-        Client client = Client.create(cc);
-        /* Set a connect and read timeout. If this hangs, it can actually
-           take down all of the jenkins schedule events.
-           This is 5 minutes expressed as milliseconds. */
-        client.setConnectTimeout(300000);
-        client.setReadTimeout(300000);
-        ClientResponse clientResponse = client.resource(url).get(ClientResponse.class);
-        String propertiesContent = clientResponse.getEntity(String.class);
-        if (propertiesContent == null) {
-            return null;
+        File file = new File(propertiesFile);
+        if (!file.exists()) {
+            logger.error(String.format("The file %s doesn't exist.", file));
         }
-        return loadProperties(propertiesContent);
+
+        try {
+            return loadProperties(FileUtils.readFileToString(file));
+        } catch (IOException ioe) {
+            throw new SharedObjectException(ioe);
+        }
     }
 
 
@@ -85,16 +79,16 @@ public class URLPropertiesSharedObjectType extends MultipleSharedObjectType {
     }
 
     @Extension
-    public static class URLPropertiesSharedObjectTypeDescriptor extends SharedObjectTypeDescriptor {
+    public static class FileURLPropertiesSharedObjectTypeDescriptor extends SharedObjectTypeDescriptor {
 
         @Override
         public String getDisplayName() {
-            return "A HTTP URL to a properties file";
+            return "A public file path to a properties file";
         }
 
         @Override
         public Class<? extends SharedObjectType> getType() {
-            return URLPropertiesSharedObjectType.class;
+            return FileURLPropertiesSharedObjectType.class;
         }
     }
 }
