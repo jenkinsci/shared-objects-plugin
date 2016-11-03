@@ -78,8 +78,12 @@ public class SharedObjectJobProperty extends EnvInjectJobPropertyContributor {
                         restrictionActivated = false;
                     }
 
+                    // find out if profile name is a job argument
+                    Map<String, String> envVars = build.getEnvironment(listener);
+                    String real_profile = Util.replaceMacro(profiles, envVars);
+
                     if (restrictionActivated) {
-                        logger.info(String.format("Restricting shared objects to the following usage %s", profiles));
+                        logger.info(String.format("Restricting shared objects to the following usage %s", real_profile));
                     }
 
                     for (SharedObjectType type : sharedObjectTypes) {
@@ -88,7 +92,7 @@ public class SharedObjectJobProperty extends EnvInjectJobPropertyContributor {
                                 addSharedObject(result, type, build, logger);
                                 continue;
                             }
-                            if (restrictionActivated && isProfileActivated(profiles, type)) {
+                            if (restrictionActivated && isProfileActivated(real_profile, type)) {
                                 addSharedObject(result, type, build, logger);
                                 continue;
                             }
